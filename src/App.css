@@ -1,38 +1,60 @@
-.App {
-  text-align: center;
+.site-title {
+    font-family: "Cinzel", serif;
+    font-size: 2rem;
+    color: #9b59d0;
+    text-align: center;
+    letter-spacing: 3px;
+    margin: 1.5rem 0;
+    text-shadow:
+        0 0 8px rgba(155, 89, 208, 0.7),
+        0 0 16px rgba(155, 89, 208, 0.5),
+        0 0 24px rgba(155, 89, 208, 0.3);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@media (min-width: 768px) {
+	.site-title {
+		font-size: 2.5rem;
+	}
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media (min-width: 1024px) {
+	.site-title {
+		font-size: 3rem;
+	}
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem;
+
+	width: min(100%, 1200px);
+	margin: 0 auto;
+	padding: 1.5rem;
+	justify-items: center;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem;
+    gap: 2.5rem;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Small desktops */
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1200px;
+    gap: 3rem;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+/* Large desktops */
+@media (min-width: 1400px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
