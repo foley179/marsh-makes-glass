@@ -2,8 +2,8 @@ import GlassCard from '../Components/GlassCard'
 
 function Home() {
 	const glassItems = [
-		{ id: 1, img: '/public/GlassImages/Thumbs/Shark_small.jpeg', title: 'Shark with background', description: 'This is a description of the shark image', price: 30.00 },
-		{ id: 2, img: '/public/GlassImages/Thumbs/Bee small.jpeg', title: 'Bee', description: 'This is a description of the bee image', price: 20.00 },
+		{ id: 1, img: 'GlassImages/Thumbs/Shark_Small.jpeg', title: 'Shark with background', description: 'This is a description of the shark image', price: 30.00 },
+		{ id: 2, img: 'GlassImages/Thumbs/Bee small.jpeg', title: 'Bee', description: 'This is a description of the bee image', price: 20.00 },
 	]
 	// vid = 44:40
 	return (
