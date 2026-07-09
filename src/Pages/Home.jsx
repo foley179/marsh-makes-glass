@@ -1,28 +1,33 @@
-import GlassCard from '../Components/GlassCard'
+import ProductList from "../Components/ProductList"
+import Title from "../Components/Title"
+import "./Home.css"
 
 function Home() {
-	const glassItems = [
-		{ id: 1, img: 'GlassImages/Thumbs/Shark_Small.jpeg', title: 'Shark with background', description: 'This is a description of the shark image', price: 30.00 },
-		{ id: 2, img: 'GlassImages/Thumbs/Bee small.jpeg', title: 'Bee', description: 'This is a description of the bee image', price: 20.00 },
-	]
-	// vid = 44:40
 	return (
 		<>
-			<header className="site-title">
-				<h1>Marsh Makes Glass</h1>
-			</header>
+			<Title text="Marsh Makes Glass" />
 
-			<div className="card-grid">
-				{glassItems.map((item) => (
-					<GlassCard
-						key={item.id}
-						img={item.img}
-						title={item.title}
-						description={item.description}
-						price={item.price}
-					/>
-				))}
-			</div>
+      <section className="home">
+				<h3 className="home-title">Handmade Stained Glass Inspired by the Deep</h3>
+				<p className="home-text">
+					Welcome to <strong>Marsh Makes Glass</strong>, where every piece is individually handcrafted using traditional stained glass techniques. Inspired by the mystery of the ocean,
+					gothic architecture, and the beauty of the natural world, each creation is designed to catch the light and transform it into something extraordinary.
+				</p>
+
+				<p className="home-text">
+					From graceful sea creatures and botanical designs to custom commissions, every panel is carefully cut, foiled, soldered, and finished by hand. No two pieces are exactly alike,
+					making each one a unique work of art.
+				</p>
+
+				<p className="home-text">
+					Whether you're looking for a striking window hanging, a thoughtful gift, or a one-of-a-kind statement piece for your home, you'll find handcrafted glass made with care,
+					creativity, and attention to detail.
+				</p>
+
+				<p className="home-text">
+					Explore the collection below, and if you have something special in mind, I'd love to help bring your vision to life through a custom commission.
+				</p>
+      </section>
 		</>
 	)
 }

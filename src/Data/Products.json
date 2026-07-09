@@ -1,0 +1,82 @@
+[
+  {
+    "id": "shark-01",
+    "name": "Shark with Background",
+    "category": ["wildlife", "underwater"],
+    "price": 30.00,
+    "description": "This is a description of the shark image",
+    "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
+  },
+  {
+    "id": "bee-01",
+    "name": "Bee",
+    "category": ["wildlife", "insect"],
+    "price": 20.00,
+    "description": "This is a description of the bee image",
+    "image": "/GlassImages/Thumbs/Bee small.jpeg"
+  },
+  {
+    "id": "shark-02",
+    "name": "Shark with Background",
+    "category": ["wildlife", "underwater"],
+    "price": 30.00,
+    "description": "This is a description of the shark image",
+    "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
+  },
+  {
+    "id": "bee-02",
+    "name": "Bee",
+    "category": ["wildlife", "insect"],
+    "price": 20.00,
+    "description": "This is a description of the bee image",
+    "image": "/GlassImages/Thumbs/Bee small.jpeg"
+  },
+  {
+    "id": "shark-03",
+    "name": "Shark with Background",
+    "category": ["wildlife", "underwater"],
+    "price": 30.00,
+    "description": "This is a description of the shark image",
+    "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
+  },
+  {
+    "id": "bee-03",
+    "name": "Bee",
+    "category": ["wildlife", "insect"],
+    "price": 20.00,
+    "description": "This is a description of the bee image",
+    "image": "/GlassImages/Thumbs/Bee small.jpeg"
+  },
+  {
+    "id": "shark-04",
+    "name": "Shark with Background",
+    "category": ["wildlife", "underwater"],
+    "price": 30.00,
+    "description": "This is a description of the shark image",
+    "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
+  },
+  {
+    "id": "bee-04",
+    "name": "Bee",
+    "category": ["wildlife", "insect"],
+    "price": 20.00,
+    "description": "This is a description of the bee image",
+    "image": "/GlassImages/Thumbs/Bee small.jpeg"
+  },
+  {
+    "id": "shark-05",
+    "name": "Shark with Background",
+    "category": ["wildlife", "underwater"],
+    "price": 30.00,
+    "description": "This is a description of the shark image",
+    "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
+  },
+  {
+    "id": "bee-05",
+    "name": "Bee",
+    "category": ["wildlife", "insect"],
+    "price": 20.00,
+    "description": "This is a description of the bee image",
+    "image": "/GlassImages/Thumbs/Bee small.jpeg"
+  }
+]
