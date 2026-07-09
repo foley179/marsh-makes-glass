@@ -5,7 +5,7 @@ function About() {
   return (
     <>
       <Title text="About" />
-      <section className="about">
+      <section className="page-body">
         <h1 className="about-title">The Depths We Work In</h1>
 
         <p className="about-text">

@@ -33,6 +33,7 @@ function Navbar() {
         <NavLink to="/marsh-makes-glass/" className="nav-link" onClick={closeMenu} end>Home</NavLink>
         <NavLink to="/marsh-makes-glass/products" className="nav-link" onClick={closeMenu}>Products</NavLink>
         <NavLink to="/marsh-makes-glass/about" className="nav-link" onClick={closeMenu}>About</NavLink>
+        <NavLink to="/marsh-makes-glass/contact" className="nav-link" onClick={closeMenu}>Contact</NavLink>
       </div>
     </nav>
   )

@@ -1,0 +1,12 @@
+.email-link {
+	color: #00fcff;
+	text-decoration: underline;
+	text-decoration-color: rgba(114, 199, 200, 0.4);
+	text-underline-offset: 3px;
+	transition: color 0.3s, text-decoration-color 0.3s;
+}
+
+.email-link:hover {
+	color: var(--secondary);
+	text-decoration-color: rgba(122, 95, 164, 0.6);
+}

@@ -1,5 +1,6 @@
 import ProductList from "../Components/ProductList"
 import Title from "../Components/Title"
+import EmailLink from "../Components/EmailLink"
 import "./Home.css"
 
 function Home() {
@@ -7,7 +8,7 @@ function Home() {
 		<>
 			<Title text="Marsh Makes Glass" />
 
-      <section className="home">
+      <section className="page-body">
 				<h3 className="home-title">Handmade Stained Glass Inspired by the Deep</h3>
 				<p className="home-text">
 					Welcome to <strong>Marsh Makes Glass</strong>, where every piece is individually handcrafted using traditional stained glass techniques. Inspired by the mystery of the ocean,
@@ -25,7 +26,8 @@ function Home() {
 				</p>
 
 				<p className="home-text">
-					Explore the collection below, and if you have something special in mind, I'd love to help bring your vision to life through a custom commission.
+					Explore the collection below, and if you have something special in mind, I'd love to help bring your vision to life
+					through a custom commission (<EmailLink subject="Custom Commission">Contact me here</EmailLink>).
 				</p>
       </section>
 		</>

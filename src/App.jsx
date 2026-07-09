@@ -3,6 +3,8 @@ import Home from './Pages/Home'
 import About from './Pages/About'
 import Products from './Pages/Products'
 import Navbar from './Components/Navbar'
+import Contact from './Pages/Contact'
+import './App.css'
 
 function App() {
 	return (
@@ -14,6 +16,7 @@ function App() {
 					<Route path="/marsh-makes-glass/" element={<Home />} />
 					<Route path="/marsh-makes-glass/products" element={<Products />} />
 					<Route path="/marsh-makes-glass/about" element={<About />} />
+					<Route path="/marsh-makes-glass/contact" element={<Contact />} />
 				</Routes>
 			</main>
 		</div>
