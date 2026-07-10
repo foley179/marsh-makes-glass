@@ -1,13 +1,15 @@
+import { NavLink } from "react-router-dom"
 import "./GlassCard.css"
 
 function GlassCard({ product }) {
   const { name, category, briefDescription, price, thumbnailPath, id } = product;
-  const url = import.meta.env.BASE_URL + thumbnailPath; // Use the BASE_URL to construct the full image URL
+  const filePath = import.meta.env.BASE_URL + thumbnailPath; // Use the BASE_URL to construct the full image URL
+  const navUrl = `/marsh-makes-glass/product/${id}`;
 
   return (
     <div className="glass-card">
-      <a href={`/marsh-makes-glass/product/${id}`}>
-        <img src={url} alt={name} />
+      <NavLink to={navUrl}>
+        <img src={filePath} alt={name} />
         <h3>{name}</h3>
         <div className="category-tags">
           {category.map((cat) => (
@@ -16,7 +18,7 @@ function GlassCard({ product }) {
         </div>
         <p>{briefDescription}</p>
         <p className="price">£{price.toFixed(2)}</p>
-      </a>
+      </NavLink>
     </div>
   )
 }
