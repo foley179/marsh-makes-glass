@@ -33,6 +33,12 @@
 	font-size: 1.1rem;
 }
 
+.cart-price {
+	font-size: 1rem;
+	color: var(--text);
+	margin-bottom: 0.4rem;
+}
+
 .quantity-controls {
 	display: flex;
 	align-items: center;
@@ -47,6 +53,11 @@
 	border: 2px solid var(--border);
 	border-radius: 6px;
 	cursor: pointer;
+	padding-bottom: 2px;
+}
+
+.quantity-controls span {
+	padding-bottom: 2px;
 }
 
 .quantity-controls button:hover {
@@ -59,7 +70,7 @@
 	color: var(--muted);
 	background: none;
 	border: none;
-	font-size: 0.8rem;
+	font-size: 0.9rem;
 	text-decoration: underline;
 	cursor: pointer;
 }

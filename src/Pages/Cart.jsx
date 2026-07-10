@@ -12,11 +12,17 @@ function Cart() {
         <Title text="Your Cart" />
         <div className="page-body">
           <p className="no-results">Your cart is empty.</p>
-          <Link to="/marsh-makes-glass/products" className="back-button">Browse the collection</Link>
         </div>
       </>
     )
   }
+
+  /**
+   * TODO:: 
+   * - Add a "Additional Notes" section. So if the user wants a specific piece (if there is multiple) they can easily request it from there.
+   * - Add numbers in the top corner of the images so the user can easily identify which piece they want to request.
+   * - If product qty is 0, have a warning that it will be made to order and will take time to complete. (on the details page too)
+   */
 
   return (
     <>
@@ -29,7 +35,7 @@ function Cart() {
 
             <div className="cart-item-details">
               <h3>{item.name}</h3>
-              <p className="price">£{item.price.toFixed(2)}</p>
+              <p className="cart-price">£{item.price.toFixed(2)}</p>
 
               <div className="quantity-controls">
                 <button onClick={() => UpdateQuantity(item.id, item.quantity - 1)}>−</button>
