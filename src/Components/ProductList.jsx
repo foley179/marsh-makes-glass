@@ -91,7 +91,7 @@ function ProductList() {
         <>
           <div className="product-grid">
             {paginatedProducts.map((product) => (
-              <GlassCard key={product.id} {...product} />
+              <GlassCard key={product.id} product={product} />
             ))}
           </div>
 

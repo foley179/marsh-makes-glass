@@ -4,7 +4,9 @@
     "name": "Shark with Background",
     "category": ["wildlife", "underwater"],
     "price": 30.00,
-    "description": "This is a description of the shark image",
+    "dimensions": "25cm x 15cm",
+    "briefDescription": "A sleek shark suspended over deep blues.",
+    "fullDescription": "This hand-cut stained glass piece captures a shark gliding through layered blues and teals, each panel leaded individually to catch the light like moving water. Designed to hang in a window where natural light can pass through the glass.",
     "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
   },
   {
@@ -12,7 +14,9 @@
     "name": "Bee",
     "category": ["wildlife", "insect"],
     "price": 20.00,
-    "description": "This is a description of the bee image",
+    "dimensions": "19cm x 20cm",
+    "briefDescription": "A busy bee among blooming flowers.",
+    "fullDescription": "This hand-cut stained glass piece features a detailed bee, each pane individually leaded to create a stunning play of light and shadow. Perfect for hanging in a sunny window to bring a touch of nature indoors.",
     "image": "/GlassImages/Thumbs/Bee small.jpeg"
   },
   {
@@ -20,7 +24,9 @@
     "name": "Shark with Background",
     "category": ["wildlife", "underwater"],
     "price": 30.00,
-    "description": "This is a description of the shark image",
+    "dimensions": "25cm x 15cm",
+    "briefDescription": "A sleek shark suspended over deep blues.",
+    "fullDescription": "This hand-cut stained glass piece captures a shark gliding through layered blues and teals, each panel leaded individually to catch the light like moving water. Designed to hang in a window where natural light can pass through the glass.",
     "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
   },
   {
@@ -28,7 +34,9 @@
     "name": "Bee",
     "category": ["wildlife", "insect"],
     "price": 20.00,
-    "description": "This is a description of the bee image",
+    "dimensions": "19cm x 20cm",
+    "briefDescription": "A busy bee among blooming flowers.",
+    "fullDescription": "This hand-cut stained glass piece features a detailed bee, each pane individually leaded to create a stunning play of light and shadow. Perfect for hanging in a sunny window to bring a touch of nature indoors.",
     "image": "/GlassImages/Thumbs/Bee small.jpeg"
   },
   {
@@ -36,7 +44,9 @@
     "name": "Shark with Background",
     "category": ["wildlife", "underwater"],
     "price": 30.00,
-    "description": "This is a description of the shark image",
+    "dimensions": "25cm x 15cm",
+    "briefDescription": "A sleek shark suspended over deep blues.",
+    "fullDescription": "This hand-cut stained glass piece captures a shark gliding through layered blues and teals, each panel leaded individually to catch the light like moving water. Designed to hang in a window where natural light can pass through the glass.",
     "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
   },
   {
@@ -44,7 +54,9 @@
     "name": "Bee",
     "category": ["wildlife", "insect"],
     "price": 20.00,
-    "description": "This is a description of the bee image",
+    "dimensions": "19cm x 20cm",
+    "briefDescription": "A busy bee among blooming flowers.",
+    "fullDescription": "This hand-cut stained glass piece features a detailed bee, each pane individually leaded to create a stunning play of light and shadow. Perfect for hanging in a sunny window to bring a touch of nature indoors.",
     "image": "/GlassImages/Thumbs/Bee small.jpeg"
   },
   {
@@ -52,7 +64,9 @@
     "name": "Shark with Background",
     "category": ["wildlife", "underwater"],
     "price": 30.00,
-    "description": "This is a description of the shark image",
+    "dimensions": "25cm x 15cm",
+    "briefDescription": "A sleek shark suspended over deep blues.",
+    "fullDescription": "This hand-cut stained glass piece captures a shark gliding through layered blues and teals, each panel leaded individually to catch the light like moving water. Designed to hang in a window where natural light can pass through the glass.",
     "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
   },
   {
@@ -60,7 +74,9 @@
     "name": "Bee",
     "category": ["wildlife", "insect"],
     "price": 20.00,
-    "description": "This is a description of the bee image",
+    "dimensions": "19cm x 20cm",
+    "briefDescription": "A busy bee among blooming flowers.",
+    "fullDescription": "This hand-cut stained glass piece features a detailed bee, each pane individually leaded to create a stunning play of light and shadow. Perfect for hanging in a sunny window to bring a touch of nature indoors.",
     "image": "/GlassImages/Thumbs/Bee small.jpeg"
   },
   {
@@ -68,7 +84,9 @@
     "name": "Shark with Background",
     "category": ["wildlife", "underwater"],
     "price": 30.00,
-    "description": "This is a description of the shark image",
+    "dimensions": "25cm x 15cm",
+    "briefDescription": "A sleek shark suspended over deep blues.",
+    "fullDescription": "This hand-cut stained glass piece captures a shark gliding through layered blues and teals, each panel leaded individually to catch the light like moving water. Designed to hang in a window where natural light can pass through the glass.",
     "image": "/GlassImages/Thumbs/Shark_Small.jpeg"
   },
   {
@@ -76,7 +94,9 @@
     "name": "Bee",
     "category": ["wildlife", "insect"],
     "price": 20.00,
-    "description": "This is a description of the bee image",
+    "dimensions": "19cm x 20cm",
+    "briefDescription": "A busy bee among blooming flowers.",
+    "fullDescription": "This hand-cut stained glass piece features a detailed bee, each pane individually leaded to create a stunning play of light and shadow. Perfect for hanging in a sunny window to bring a touch of nature indoors.",
     "image": "/GlassImages/Thumbs/Bee small.jpeg"
   }
 ]
