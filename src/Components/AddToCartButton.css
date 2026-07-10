@@ -1,0 +1,22 @@
+.add-to-cart-button {
+	margin-top: 0.5rem;
+	padding: 0.7rem 1.5rem;
+	font-size: 0.9rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--bg-dark);
+	background: var(--primary);
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background 0.3s, transform 0.2s;
+}
+
+.add-to-cart-button:hover {
+	background: var(--secondary);
+	color: var(--text);
+}
+
+.add-to-cart-button:active {
+	transform: scale(0.97);
+}

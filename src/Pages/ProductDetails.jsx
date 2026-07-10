@@ -2,6 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom"
 import { useState } from "react"
 import products from "../data/products.json"
 import Title from '../Components/Title'
+import AddToCartButton from "../Components/AddToCartButton"
 import './ProductDetails.css'
 
 function ProductDetails() {
@@ -30,6 +31,7 @@ function ProductDetails() {
       navigate("/marsh-makes-glass/products");
   }
 
+  // NOTE:: For now we only have arrows for now, we can add "swipe" functionality later. Would be a nice for mobile users, but not essential.
   function HandlePrevImage() {
     setCurrentImage((index) => (index === 0 ? imagePaths.length - 1 : index - 1))
   }
@@ -78,6 +80,7 @@ function ProductDetails() {
           <p className="dimensions">{dimensions}</p>
         </div>
         <p className="price">£{price.toFixed(2)}</p>
+        <AddToCartButton product={product} />
         <button className="back-button" onClick={HandleBack}>← Back to products</button>
       </div>
     </>
