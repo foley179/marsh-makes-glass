@@ -6,16 +6,6 @@
 	gap: 1rem;
 }
 
-.product-details img {
-	width: 100%;
-	max-width: 400px;
-	border-radius: 18px;
-	border: 2px solid var(--border);
-	box-shadow:
-		0 12px 30px rgba(0, 0, 0, 0.45),
-		0 0 18px rgba(114, 199, 200, 0.18);
-}
-
 .product-details p {
 	max-width: 60ch;
 	color: var(--muted);
@@ -44,6 +34,7 @@
   text-decoration: underline;
 }
 
+/* Back button styling */
 .back-button {
 	margin-top: 0.5rem;
 	padding: 0.6rem 1.25rem;
@@ -60,6 +51,81 @@
 	border-color: var(--primary);
 	color: var(--primary);
 }
+/* End back button styling */
+
+/* Image carousel styling */
+.image-carousel {
+	position: relative;
+	width: 100%;
+	max-width: 400px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.image-carousel img {
+	width: 100%;
+	max-width: 400px;
+	border-radius: 18px;
+	border: 2px solid var(--border);
+	box-shadow:
+		0 12px 30px rgba(0, 0, 0, 0.45),
+		0 0 18px rgba(114, 199, 200, 0.18);
+}
+
+.carousel-arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 2.25rem;
+	height: 2.25rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	color: var(--text);
+	background: rgba(11, 26, 37, 0.75);
+	border: 2px solid var(--border);
+	border-radius: 50%;
+	cursor: pointer;
+	transition: border-color 0.3s, color 0.3s;
+	z-index: 2;
+}
+
+.carousel-arrow:hover {
+	border-color: var(--primary);
+	color: var(--primary);
+}
+
+.carousel-prev {
+	left: 0.5rem;
+}
+
+.carousel-next {
+	right: 0.5rem;
+}
+
+.carousel-dots {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+}
+
+.carousel-dot {
+	width: 0.6rem;
+	height: 0.6rem;
+	padding: 0;
+	background: var(--border);
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.carousel-dot.active {
+	background: var(--primary);
+}
+/* End image carousel styling */
 
 @media (min-width: 600px) {
 	.product-details img {

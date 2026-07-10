@@ -1,8 +1,8 @@
 import "./GlassCard.css"
 
 function GlassCard({ product }) {
-  const { name, category, briefDescription, price, image, id } = product;
-  const url = import.meta.env.BASE_URL + image; // Use the BASE_URL to construct the full image URL
+  const { name, category, briefDescription, price, thumbnailPath, id } = product;
+  const url = import.meta.env.BASE_URL + thumbnailPath; // Use the BASE_URL to construct the full image URL
 
   return (
     <div className="glass-card">
