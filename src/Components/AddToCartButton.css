@@ -20,3 +20,13 @@
 .add-to-cart-button:active {
 	transform: scale(0.97);
 }
+
+.add-to-cart-button.added {
+	background: var(--secondary);
+	color: var(--text);
+}
+
+.add-to-cart-button.added:hover {
+	background: var(--primary);
+	color: var(--bg-dark);
+}
