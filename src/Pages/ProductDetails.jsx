@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router-dom"
-import { useState } from "react"
-import products from "../data/products.json"
+import { useState, useEffect } from "react"
+import { supabase } from "../lib/supabaseClient"
 import Title from '../Components/Title'
 import AddToCartButton from "../Components/AddToCartButton"
 import './ProductDetails.css'
@@ -9,19 +9,44 @@ function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [currentImage, setCurrentImage] = useState(0);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  function FindProduct() {
-    return products.find((product) => product.id === id);
-  };
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setCurrentImage(0);
 
-  const product = FindProduct();
+    async function FetchProduct() {
+      const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle();
 
-  if (!product) {
+      if (cancelled)
+         return;
+
+      if (error)
+        setError(error);
+      else
+        setProduct(data);
+      
+      setLoading(false);
+    }
+
+    FetchProduct();
+
+    return () => { cancelled = true; };
+  }, [id]);
+
+  if (loading) {
+    return <p className="no-results">Loading piece...</p>
+  }
+
+  if (error || !product) {
     return <p className="no-results">Sorry, we couldn't find that piece.</p>
   }
 
-  const { name, category, dimensions, fullDescription, price, imagePaths } = product;
-  const imageUrl = import.meta.env.BASE_URL + imagePaths[currentImage]; // Use the BASE_URL to construct the full image URL
+  const { name, category, dimensions, full_description, price, image_urls } = product;
+  const imageUrl = image_urls[currentImage]; // already a full Supabase Storage URL
 
   // Go back if there is a previous page in history, otherwise go to the products page
   function HandleBack() {
@@ -33,11 +58,11 @@ function ProductDetails() {
 
   // NOTE:: For now we only have arrows for now, we can add "swipe" functionality later. Would be a nice for mobile users, but not essential.
   function HandlePrevImage() {
-    setCurrentImage((index) => (index === 0 ? imagePaths.length - 1 : index - 1))
+    setCurrentImage((index) => (index === 0 ? image_urls.length - 1 : index - 1))
   }
 
   function HandleNextImage() {
-    setCurrentImage((index) => (index === imagePaths.length - 1 ? 0 : index + 1))
+    setCurrentImage((index) => (index === image_urls.length - 1 ? 0 : index + 1))
   }
 
   return (
@@ -46,24 +71,24 @@ function ProductDetails() {
 
       <div className="page-body product-details">
         <div className="image-carousel">
-          {imagePaths.length > 1 && (
+          {image_urls.length > 1 && (
             <button className="carousel-arrow carousel-prev" onClick={HandlePrevImage} aria-label="Previous image">
               ‹
             </button>
           )}
 
-          <img src={imageUrl} alt={`${name} — image ${currentImage + 1} of ${imagePaths.length}`} />
+          <img src={imageUrl} alt={`${name} — image ${currentImage + 1} of ${image_urls.length}`} />
 
-          {imagePaths.length > 1 && (
+          {image_urls.length > 1 && (
             <button className="carousel-arrow carousel-next" onClick={HandleNextImage} aria-label="Next image">
               ›
             </button>
           )}
         </div>
 
-        {imagePaths.length > 1 && (
+        {image_urls.length > 1 && (
           <div className="carousel-dots">
-            {imagePaths.map((image, index) => (
+            {image_urls.map((image, index) => (
               <button
                 key={image}
                 className={`carousel-dot ${index === currentImage ? "active" : ""}`}
@@ -74,7 +99,7 @@ function ProductDetails() {
           </div>
         )}
 
-        <p>{fullDescription}</p>
+        <p>{full_description}</p>
         <div>
           <span className="dimensions-label">Dimensions:</span>
           <p className="dimensions">{dimensions}</p>

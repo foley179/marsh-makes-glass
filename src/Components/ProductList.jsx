@@ -1,15 +1,41 @@
 import { useState, useMemo, useEffect } from "react"
-import products from "../data/products.json"
+import { supabase } from "../lib/supabaseClient"
 import GlassCard from "./GlassCard"
 import "./ProductList.css"
 
 const ITEMS_PER_PAGE = 8;
 
 function ProductList() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Fetch the product catalogue from Supabase once on mount
+  useEffect(() => {
+    let cancelled = false;
+
+    async function FetchProducts() {
+      const { data, error } = await supabase.from("products").select("*");
+
+      if (cancelled)
+        return;
+
+      if (error)
+        setError(error);
+      else
+        setProducts(data);
+      
+      setLoading(false);
+    }
+
+    FetchProducts();
+
+    return () => { cancelled = true; };
+  }, []);
 
   // Debounce the search input to avoid excessive filtering on every keystroke
   useEffect(() => {
@@ -40,11 +66,11 @@ function ProductList() {
     })
   }
 
-  // Build main list once
-  const categories = useMemo(GetCategories, []);
+  // Build main list whenever the fetched products change
+  const categories = useMemo(GetCategories, [products]);
 
-  // Build filtered list whenever search or category changes
-  const filteredProducts = useMemo(GetFilteredProducts, [debouncedSearch, category]);
+  // Build filtered list whenever search, category, or the products change
+  const filteredProducts = useMemo(GetFilteredProducts, [products, debouncedSearch, category]);
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
 
@@ -72,6 +98,14 @@ function ProductList() {
   function HandleNextPage() {
     setCurrentPage((page) => Math.min(page + 1, totalPages));
   };
+
+  if (loading) {
+    return <p className="no-results">Loading pieces...</p>
+  }
+
+  if (error) {
+    return <p className="no-results">Sorry, we couldn't load the pieces right now. Please try again shortly.</p>
+  }
 
   return (
     <div className="product-list">

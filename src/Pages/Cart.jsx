@@ -31,7 +31,7 @@ function Cart() {
       <div className="page-body cart">
         {cartItems.map((item) => (
           <div className="cart-item" key={item.id}>
-            <img src={import.meta.env.BASE_URL + item.thumbnailPath} alt={item.name} />
+            <img src={item.thumbnail_url} alt={item.name} />
 
             <div className="cart-item-details">
               <h3>{item.name}</h3>

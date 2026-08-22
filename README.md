@@ -14,11 +14,12 @@ A basic webpage for a company making homemade stained glass.
 - CSS
 - JavaScript
 - React
+- Supabase (product data + images)
 
 ## Status
 Project is: _in progress_
 
 ## Commands
 npm run dev     -- Local
-npm run deploy  -- gh-pages
+npm run deploy  -- gh-pages (manual fallback; normally pushing to main deploys automatically via GitHub Actions)
 npm run build   -- build only

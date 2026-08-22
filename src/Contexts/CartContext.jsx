@@ -31,7 +31,7 @@ function CartProvider({ children }) {
         id: product.id,
         name: product.name,
         price: product.price,
-        thumbnailPath: product.thumbnailPath,
+        thumbnail_url: product.thumbnail_url,
         quantity: 1,
       }];
     })
