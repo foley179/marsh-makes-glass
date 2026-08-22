@@ -1,5 +1,5 @@
-import EmailLink from "../components/EmailLink"
-import Title from "../components/Title"
+import EmailLink from "../Components/EmailLink"
+import Title from "../Components/Title"
 import "./Contact.css"
 
 const SOCIAL_LINKS = [
