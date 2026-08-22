@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useCart } from "../Contexts/CartContext"
-import Title from "../components/Title"
+import Title from "../Components/Title"
 import "./Cart.css"
 
 function Cart() {
