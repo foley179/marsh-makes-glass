@@ -12,6 +12,17 @@
 	line-height: 1.6;
 }
 
+.stock-badge-inline {
+	padding: 3px 12px;
+	font-size: 0.7rem;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--text);
+	background: rgba(226, 114, 91, 0.85);
+	border: 1px solid var(--warning);
+	border-radius: 999px;
+}
+
 .product-details .price {
 	color: #9fffd7;
 	font-size: 1.4rem;

@@ -90,3 +90,33 @@
 	font-weight: bold;
 	color: #9fffd7;
 }
+
+.cart-error {
+	margin-top: 0.5rem;
+	color: var(--warning);
+	font-size: 0.9rem;
+}
+
+.checkout-button {
+	margin-top: 1rem;
+	padding: 0.7rem 1.5rem;
+	font-size: 0.9rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--bg-dark);
+	background: var(--primary);
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.checkout-button:hover {
+	background: var(--secondary);
+	color: var(--text);
+}
+
+.checkout-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

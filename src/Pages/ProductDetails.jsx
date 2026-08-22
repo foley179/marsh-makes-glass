@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { supabase } from "../lib/supabaseClient"
 import Title from '../Components/Title'
 import AddToCartButton from "../Components/AddToCartButton"
+import CustomOrderRequest from "../Components/CustomOrderRequest"
 import './ProductDetails.css'
 
 function ProductDetails() {
@@ -45,8 +46,9 @@ function ProductDetails() {
     return <p className="no-results">Sorry, we couldn't find that piece.</p>
   }
 
-  const { name, category, dimensions, full_description, price, image_urls } = product;
+  const { name, category, dimensions, full_description, price, image_urls, stock_quantity } = product;
   const imageUrl = image_urls[currentImage]; // already a full Supabase Storage URL
+  const outOfStock = stock_quantity === 0;
 
   // Go back if there is a previous page in history, otherwise go to the products page
   function HandleBack() {
@@ -70,6 +72,8 @@ function ProductDetails() {
       <Title text={name} />
 
       <div className="page-body product-details">
+        {outOfStock && <span className="stock-badge-inline">Out of stock</span>}
+
         <div className="image-carousel">
           {image_urls.length > 1 && (
             <button className="carousel-arrow carousel-prev" onClick={HandlePrevImage} aria-label="Previous image">
@@ -105,7 +109,7 @@ function ProductDetails() {
           <p className="dimensions">{dimensions}</p>
         </div>
         <p className="price">£{price.toFixed(2)}</p>
-        <AddToCartButton product={product} />
+        {outOfStock ? <CustomOrderRequest product={product} /> : <AddToCartButton product={product} />}
         <button className="back-button" onClick={HandleBack}>← Back to products</button>
       </div>
     </>

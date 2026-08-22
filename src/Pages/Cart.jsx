@@ -1,10 +1,56 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useCart } from "../Contexts/CartContext"
+import { supabase } from "../lib/supabaseClient"
 import Title from "../Components/Title"
 import "./Cart.css"
 
 function Cart() {
-  const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal } = useCart();
+  const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal, ClearCart } = useCart();
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [orderComplete, setOrderComplete] = useState(false);
+
+  // Calls the place_order RPC, which checks stock and decrements it for
+  // every item in one atomic operation - either the whole order goes
+  // through or none of it does. This is a test/"fake" checkout (no real
+  // payment yet) so an order is recorded but nothing is actually charged.
+  async function HandleCompleteOrder() {
+    setSubmitting(true);
+    setError(null);
+
+    const { error } = await supabase.rpc("place_order", {
+      p_items: cartItems.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+      p_total: GetCartTotal(),
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      ClearCart();
+      setOrderComplete(true);
+    }
+  }
+
+  if (orderComplete) {
+    return (
+      <>
+        <Title text="Your Cart" />
+        <div className="page-body">
+          <p className="no-results">
+            Test order placed! This didn't charge anything real - it just recorded the order and updated stock, so we can check the flow works.
+          </p>
+        </div>
+      </>
+    )
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -18,10 +64,9 @@ function Cart() {
   }
 
   /**
-   * TODO:: 
+   * TODO::
    * - Add a "Additional Notes" section. So if the user wants a specific piece (if there is multiple) they can easily request it from there.
    * - Add numbers in the top corner of the images so the user can easily identify which piece they want to request.
-   * - If product qty is 0, have a warning that it will be made to order and will take time to complete. (on the details page too)
    */
 
   return (
@@ -52,6 +97,12 @@ function Cart() {
 
         <div className="cart-summary">
           <p className="cart-total">Total: £{GetCartTotal().toFixed(2)}</p>
+
+          {error && <p className="cart-error">{error}</p>}
+
+          <button className="checkout-button" onClick={HandleCompleteOrder} disabled={submitting}>
+            {submitting ? "Placing order..." : "Complete Order (test)"}
+          </button>
         </div>
       </div>
     </>

@@ -17,12 +17,6 @@ function Navbar() {
 
   const cartCount = GetCartCount();
 
-	/* TODO:: When I get a logo, replace the SVG with an image. For now, I'm using a placeholder image.
-	<Link to="/" className="navbar-home" aria-label="Home" onClick={closeMenu}>
-		<img src="/logo.png" alt="Marsh Makes Glass" />
-	</Link>
-	*/
-
   return (
     <nav className="navbar">
       <NavLink to="/marsh-makes-glass/" className="navbar-home" aria-label="Home" onClick={CloseMenu}>
