@@ -9,10 +9,8 @@ function Cart() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  // Calls the create-checkout Edge Function, which records a "pending" order and asks Square for a hosted checkout page, then sends the
-  // browser there. Stock isn't touched here - it only gets decremented once Square confirms the payment actually completed (see the
-  // square-webhook function), so an abandoned checkout doesn't affect stock. The cart is deliberately left alone until then too, in case
-  // the customer comes back without having paid.
+  // Sends the browser to Square's hosted checkout. Stock/cart aren't touched here - only once
+  // square-webhook confirms the payment actually completed.
   async function HandleCheckout() {
     setSubmitting(true);
     setError(null);
@@ -30,8 +28,7 @@ function Cart() {
 
     if (error) {
       setSubmitting(false);
-      // supabase-js doesn't auto-parse the JSON body of a non-2xx Edge Function response into `data`
-      // it has to be read off the error's response context to get our actual error message instead of a generic one.
+      // supabase-js doesn't auto-parse a non-2xx response body into `data` - read it off error.context instead.
       let message = error.message;
       try {
         const body = await error.context.json();
