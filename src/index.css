@@ -14,16 +14,20 @@
 html {
 	font-size: 16px;
 	scroll-behavior: smooth;
+	background-color: var(--bg-page);
 }
 
 body {
 	min-height: 100vh;
 	font-family: "Georgia", "Garamond", serif;
 	color: #d9e6ec;
-	background:
-		linear-gradient(rgba(5, 10, 18, 0.75), rgba(5, 10, 18, 0.85)),
-		url("/main_bg.png");
-	background-repeat: repeat;
+	background-color: var(--bg-page);
+	background-image:
+		linear-gradient(rgba(5, 14, 23, 0.94), rgba(5, 14, 23, 0.94)),
+		url("./assets/MMG_small.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: min(90vw, 600px);
 	background-attachment: fixed;
 	overflow-x: hidden;
 }
@@ -51,6 +55,7 @@ a {
 
 :root {
 	--bg-dark: #07131d;
+	--bg-page: #050e17;
 	--bg-card: rgba(11, 26, 37, 0.88);
 
 	--border: #3b6875;

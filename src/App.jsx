@@ -12,12 +12,6 @@ import './App.css'
 function App() {
 	return (
 		<CartProvider>
-			<div
-				className="brand-watermark"
-				style={{ backgroundImage: `url(${import.meta.env.BASE_URL}MMG_small.svg)` }}
-				aria-hidden="true"
-			/>
-
 			<Navbar />
 
 			<main className="main-content">
