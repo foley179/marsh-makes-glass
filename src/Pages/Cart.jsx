@@ -1,55 +1,55 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
 import { useCart } from "../Contexts/CartContext"
 import { supabase } from "../lib/supabaseClient"
 import Title from "../Components/Title"
 import "./Cart.css"
 
 function Cart() {
-  const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal, ClearCart } = useCart();
+  const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal } = useCart();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
-  const [orderComplete, setOrderComplete] = useState(false);
 
-  // Calls the place_order RPC, which checks stock and decrements it for
-  // every item in one atomic operation - either the whole order goes
-  // through or none of it does. This is a test/"fake" checkout (no real
-  // payment yet) so an order is recorded but nothing is actually charged.
-  async function HandleCompleteOrder() {
+  // Calls the create-checkout Edge Function, which records a "pending" order and asks Square for a hosted checkout page, then sends the
+  // browser there. Stock isn't touched here - it only gets decremented once Square confirms the payment actually completed (see the
+  // square-webhook function), so an abandoned checkout doesn't affect stock. The cart is deliberately left alone until then too, in case
+  // the customer comes back without having paid.
+  async function HandleCheckout() {
     setSubmitting(true);
     setError(null);
 
-    const { error } = await supabase.rpc("place_order", {
-      p_items: cartItems.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-      })),
-      p_total: GetCartTotal(),
+    const { data, error } = await supabase.functions.invoke("create-checkout", {
+      body: {
+        items: cartItems.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      },
     });
 
-    setSubmitting(false);
-
     if (error) {
-      setError(error.message);
-    } else {
-      ClearCart();
-      setOrderComplete(true);
+      setSubmitting(false);
+      // supabase-js doesn't auto-parse the JSON body of a non-2xx Edge Function response into `data`
+      // it has to be read off the error's response context to get our actual error message instead of a generic one.
+      let message = error.message;
+      try {
+        const body = await error.context.json();
+        if (body?.error) message = body.error;
+      } catch {
+        // no JSON body available - stick with the generic message
+      }
+      setError(message);
+      return;
     }
-  }
 
-  if (orderComplete) {
-    return (
-      <>
-        <Title text="Your Cart" />
-        <div className="page-body">
-          <p className="no-results">
-            Test order placed! This didn't charge anything real - it just recorded the order and updated stock, so we can check the flow works.
-          </p>
-        </div>
-      </>
-    )
+    if (!data?.checkoutUrl) {
+      setSubmitting(false);
+      setError("Something went wrong starting checkout.");
+      return;
+    }
+
+    window.location.href = data.checkoutUrl;
   }
 
   if (cartItems.length === 0) {
@@ -94,8 +94,8 @@ function Cart() {
 
           {error && <p className="cart-error">{error}</p>}
 
-          <button className="checkout-button" onClick={HandleCompleteOrder} disabled={submitting}>
-            {submitting ? "Placing order..." : "Complete Order (test)"}
+          <button className="checkout-button" onClick={HandleCheckout} disabled={submitting}>
+            {submitting ? "Redirecting to checkout..." : "Checkout"}
           </button>
         </div>
       </div>
