@@ -2,10 +2,7 @@ import { useState } from "react"
 import { supabase } from "../lib/supabaseClient"
 import "./CustomOrderRequest.css"
 
-// Shown instead of the Add to Cart button when a piece is out of stock.
-// Nothing is bought or committed here - it just records a request that has
-// to be reviewed and confirmed manually (via the Supabase dashboard) before
-// anything is agreed with the customer.
+// Shown instead of Add to Cart when out of stock. Just records a request for manual follow-up - nothing committed.
 function CustomOrderRequest({ product }) {
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
