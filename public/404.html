@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Marsh Makes Glass</title>
+    <script type="text/javascript">
+      // GitHub Pages SPA fix: https://github.com/rafgraph/spa-github-pages
+      // Static host can't serve nested routes directly (e.g. /marsh-makes-glass/cart) - encode the
+      // path and bounce to index.html, which restores it (see the script there).
+      var pathSegmentsToKeep = 1; // "/marsh-makes-glass" base
+
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
