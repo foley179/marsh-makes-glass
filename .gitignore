@@ -17,12 +17,11 @@ dist-ssr
 .env.*
 !.env.example
 
-# Supabase - schema/migrations/functions are applied directly in the
-# Supabase dashboard/CLI and kept out of this public repo on purpose
-supabase/schema.sql
-supabase/migrations/
-supabase/functions/
-supabase/.temp/
+# Supabase - schema/migrations/functions/templates are applied directly in
+# the Supabase dashboard/CLI and kept out of this public repo on purpose
+# (not because they contain secrets - they don't - just to avoid
+# publishing the exact DB/business logic design).
+supabase/
 
 # Editor directories and files
 .vscode/*

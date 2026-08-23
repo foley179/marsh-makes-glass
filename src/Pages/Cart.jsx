@@ -63,12 +63,6 @@ function Cart() {
     )
   }
 
-  /**
-   * TODO::
-   * - Add a "Additional Notes" section. So if the user wants a specific piece (if there is multiple) they can easily request it from there.
-   * - Add numbers in the top corner of the images so the user can easily identify which piece they want to request.
-   */
-
   return (
     <>
       <Title text="Your Cart" />
