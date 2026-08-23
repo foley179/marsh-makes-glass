@@ -105,7 +105,7 @@ function ProductDetails() {
 
         <p>{full_description}</p>
         <div>
-          <span className="dimensions-label">Dimensions:</span>
+          <span className="dimensions-label">Dimensions (Approx.):</span>
           <p className="dimensions">{dimensions}</p>
         </div>
         <p className="price">£{price.toFixed(2)}</p>
