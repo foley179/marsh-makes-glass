@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { supabase } from "../lib/supabaseClient"
+import { useCart } from "../Contexts/CartContext"
 import Title from "../Components/Title"
 import "./OrderConfirmation.css"
 
@@ -9,6 +10,7 @@ const MAX_POLLS = 5; // covers the webhook-confirmation gap after a real Square 
 
 function OrderConfirmation() {
   const { orderId } = useParams();
+  const { ClearCart } = useCart();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -20,7 +22,7 @@ function OrderConfirmation() {
     async function FetchOrder() {
       const { data, error } = await supabase.rpc("get_order", { p_order_id: orderId });
 
-      if (cancelled) 
+      if (cancelled)
         return;
 
       if (error || !data) {
@@ -32,6 +34,11 @@ function OrderConfirmation() {
       setOrder(data);
       setLoading(false);
 
+      // Fake flow clears the cart itself before navigating here - this covers real Square payments.
+      if (data.status === "confirmed") {
+        ClearCart();
+      }
+
       if (data.status === "pending" && pollsLeft > 0) {
         pollsLeft -= 1;
         setTimeout(FetchOrder, POLL_INTERVAL_MS);
@@ -41,6 +48,8 @@ function OrderConfirmation() {
     FetchOrder();
 
     return () => { cancelled = true; };
+    // ClearCart isn't memoized - omitted deliberately, would re-run this effect on every cart change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   if (loading) {
