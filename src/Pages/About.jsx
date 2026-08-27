@@ -21,6 +21,17 @@ function About() {
           in the solder, that's not a flaw — that's a hand having made it.
         </p>
 
+        <p className="about-text">
+          Based in the West Midlands, England — landlocked, thoroughly
+          shark-free, which hasn't helped the obsession. That one traces back
+          to a holiday in Florida spent actively seeking out sharks and
+          manatees to swim with, on purpose, for fun. At home the wildlife is
+          somewhat tamer: two cats who oversee the studio without ever
+          touching the glass, and a fish tank that's basically a smaller,
+          much safer ocean. Most pieces start somewhere in that pull toward
+          the strange, the toothy, and the beautiful.
+        </p>
+
         <p className="about-signature">— Marsh</p>
       </section>
     </>
