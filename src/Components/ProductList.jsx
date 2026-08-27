@@ -55,15 +55,26 @@ function ProductList() {
   }
 
   function GetFilteredProducts() {
-    return products.filter((product) => {
-      const matchesSearch = product.name
-        .toLowerCase()
-        .includes(debouncedSearch.toLowerCase());
+    return products
+      .filter((product) => {
+        const matchesSearch = product.name
+          .toLowerCase()
+          .includes(debouncedSearch.toLowerCase());
 
-      const matchesCategory = category === "all" || product.category.includes(category);
+        const matchesCategory = category === "all" || product.category.includes(category);
 
-      return matchesSearch && matchesCategory;
-    })
+        return matchesSearch && matchesCategory;
+      })
+      // Available pieces first, then alphabetical within each group
+      .sort((a, b) => {
+        const aAvailable = a.stock_quantity > 0;
+        const bAvailable = b.stock_quantity > 0;
+
+        if (aAvailable !== bAvailable)
+          return aAvailable ? -1 : 1;
+
+        return a.name.localeCompare(b.name);
+      })
   }
 
   // Build main list whenever the fetched products change
