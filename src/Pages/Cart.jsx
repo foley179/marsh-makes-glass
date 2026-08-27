@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
 import { useCart } from "../Contexts/CartContext"
 import { supabase } from "../lib/supabaseClient"
+import { IsRealCheckoutEnabled } from "../lib/realCheckoutFlag"
 import Title from "../Components/Title"
 import "./Cart.css"
 
@@ -10,12 +10,49 @@ function Cart() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [orderComplete, setOrderComplete] = useState(false);
+  const realCheckoutEnabled = IsRealCheckoutEnabled();
 
-  // Calls the place_order RPC, which checks stock and decrements it for
-  // every item in one atomic operation - either the whole order goes
-  // through or none of it does. This is a test/"fake" checkout (no real
-  // payment yet) so an order is recorded but nothing is actually charged.
-  async function HandleCompleteOrder() {
+  // Real Square Sandbox checkout - only reachable via ?realCheckout=1 (see realCheckoutFlag.js).
+  async function HandleRealCheckout() {
+    setSubmitting(true);
+    setError(null);
+
+    const { data, error } = await supabase.functions.invoke("create-checkout", {
+      body: {
+        items: cartItems.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      },
+    });
+
+    if (error) {
+      setSubmitting(false);
+      // supabase-js doesn't auto-parse a non-2xx response body into `data` - read it off error.context instead.
+      let message = error.message;
+      try {
+        const body = await error.context.json();
+        if (body?.error) message = body.error;
+      } catch {
+        // no JSON body available - stick with the generic message
+      }
+      setError(message);
+      return;
+    }
+
+    if (!data?.checkoutUrl) {
+      setSubmitting(false);
+      setError("Something went wrong starting checkout.");
+      return;
+    }
+
+    window.location.href = data.checkoutUrl;
+  }
+
+  // Default for everyone else - place_order checks + decrements stock atomically, no real payment.
+  async function HandleFakeCheckout() {
     setSubmitting(true);
     setError(null);
 
@@ -38,6 +75,8 @@ function Cart() {
       setOrderComplete(true);
     }
   }
+
+  const HandleCheckout = realCheckoutEnabled ? HandleRealCheckout : HandleFakeCheckout;
 
   if (orderComplete) {
     return (
@@ -94,8 +133,12 @@ function Cart() {
 
           {error && <p className="cart-error">{error}</p>}
 
-          <button className="checkout-button" onClick={HandleCompleteOrder} disabled={submitting}>
-            {submitting ? "Placing order..." : "Complete Order (test)"}
+          {realCheckoutEnabled && <p className="real-checkout-notice">Real Square Sandbox checkout enabled</p>}
+
+          <button className="checkout-button" onClick={HandleCheckout} disabled={submitting}>
+            {submitting
+              ? (realCheckoutEnabled ? "Redirecting to checkout..." : "Placing order...")
+              : (realCheckoutEnabled ? "Checkout" : "Complete Order (test)")}
           </button>
         </div>
       </div>

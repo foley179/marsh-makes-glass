@@ -97,6 +97,14 @@
 	font-size: 0.9rem;
 }
 
+.real-checkout-notice {
+	margin-top: 0.5rem;
+	color: var(--warning);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
 .checkout-button {
 	margin-top: 1rem;
 	padding: 0.7rem 1.5rem;

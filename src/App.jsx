@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import { CartProvider } from "./Contexts/CartContext"
+import { SyncRealCheckoutFlag } from "./lib/realCheckoutFlag"
 import Home from './Pages/Home'
 import About from './Pages/About'
 import Products from './Pages/Products'
@@ -8,6 +9,8 @@ import Contact from './Pages/Contact'
 import ProductDetails from './Pages/ProductDetails'
 import Cart from './Pages/Cart'
 import './App.css'
+
+SyncRealCheckoutFlag(); // picks up ?realCheckout=1/0 from the URL, if present
 
 function App() {
 	return (
