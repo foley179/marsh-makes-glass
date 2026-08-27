@@ -67,6 +67,12 @@ function OrderConfirmation() {
           </p>
         )}
 
+        {order.status === "confirmed" && (
+          <p className="invoice-thank-you">
+            Thank you for your order! Your piece will be carefully packaged by hand and on its way to you soon.
+          </p>
+        )}
+
         <div className="invoice-items">
           {order.items.map((item) => (
             <div className="invoice-item" key={item.id}>
