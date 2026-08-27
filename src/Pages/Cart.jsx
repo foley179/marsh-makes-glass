@@ -1,17 +1,19 @@
 import { useState } from "react"
 import { useCart } from "../Contexts/CartContext"
 import { supabase } from "../lib/supabaseClient"
+import { IsRealCheckoutEnabled } from "../lib/realCheckoutFlag"
 import Title from "../Components/Title"
 import "./Cart.css"
 
 function Cart() {
-  const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal } = useCart();
+  const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal, ClearCart } = useCart();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [orderComplete, setOrderComplete] = useState(false);
+  const realCheckoutEnabled = IsRealCheckoutEnabled();
 
-  // Sends the browser to Square's hosted checkout. Stock/cart aren't touched here - only once
-  // square-webhook confirms the payment actually completed.
-  async function HandleCheckout() {
+  // Real Square Sandbox checkout - only reachable via ?realCheckout=1 (see realCheckoutFlag.js).
+  async function HandleRealCheckout() {
     setSubmitting(true);
     setError(null);
 
@@ -47,6 +49,46 @@ function Cart() {
     }
 
     window.location.href = data.checkoutUrl;
+  }
+
+  // Default for everyone else - place_order checks + decrements stock atomically, no real payment.
+  async function HandleFakeCheckout() {
+    setSubmitting(true);
+    setError(null);
+
+    const { error } = await supabase.rpc("place_order", {
+      p_items: cartItems.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+      p_total: GetCartTotal(),
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      ClearCart();
+      setOrderComplete(true);
+    }
+  }
+
+  const HandleCheckout = realCheckoutEnabled ? HandleRealCheckout : HandleFakeCheckout;
+
+  if (orderComplete) {
+    return (
+      <>
+        <Title text="Your Cart" />
+        <div className="page-body">
+          <p className="no-results">
+            Test order placed! This didn't charge anything real - it just recorded the order and updated stock, so we can check the flow works.
+          </p>
+        </div>
+      </>
+    )
   }
 
   if (cartItems.length === 0) {
@@ -91,8 +133,12 @@ function Cart() {
 
           {error && <p className="cart-error">{error}</p>}
 
+          {realCheckoutEnabled && <p className="real-checkout-notice">Real Square Sandbox checkout enabled</p>}
+
           <button className="checkout-button" onClick={HandleCheckout} disabled={submitting}>
-            {submitting ? "Redirecting to checkout..." : "Checkout"}
+            {submitting
+              ? (realCheckoutEnabled ? "Redirecting to checkout..." : "Placing order...")
+              : (realCheckoutEnabled ? "Checkout" : "Complete Order (test)")}
           </button>
         </div>
       </div>
