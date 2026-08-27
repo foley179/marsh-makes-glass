@@ -103,7 +103,8 @@ function OrderConfirmation() {
             <p>{address.name}</p>
             <p>{address.line1}</p>
             {address.line2 && <p>{address.line2}</p>}
-            <p>{address.city}, {address.postcode}</p>
+            <p>{address.city}</p>
+            <p>{address.postcode}</p>
             <p>{address.country}</p>
           </div>
         )}
