@@ -31,6 +31,7 @@ function CartProvider({ children }) {
         id: product.id,
         name: product.name,
         price: product.price,
+        postage: product.postage,
         thumbnail_url: product.thumbnail_url,
         quantity: 1,
       }];

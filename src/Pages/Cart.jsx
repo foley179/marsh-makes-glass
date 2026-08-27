@@ -1,22 +1,28 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useCart } from "../Contexts/CartContext"
 import { supabase } from "../lib/supabaseClient"
 import { IsRealCheckoutEnabled } from "../lib/realCheckoutFlag"
+import ShippingAddressForm, { EmptyShippingAddress, IsShippingAddressComplete } from "../Components/ShippingAddressForm"
 import Title from "../Components/Title"
 import "./Cart.css"
 
 function Cart() {
   const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal, ClearCart } = useCart();
+  const navigate = useNavigate();
+  const [address, setAddress] = useState(EmptyShippingAddress);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
-  const [orderComplete, setOrderComplete] = useState(false);
   const realCheckoutEnabled = IsRealCheckoutEnabled();
+
+  const subtotal = GetCartTotal();
+  // Preview only - highest single item's postage, matching the server-side calculation. The
+  // actual charge is always computed server-side from products.postage, not sent from here.
+  const postage = Math.max(0, ...cartItems.map((item) => item.postage ?? 0));
+  const total = subtotal + postage;
 
   // Real Square Sandbox checkout - only reachable via ?realCheckout=1 (see realCheckoutFlag.js).
   async function HandleRealCheckout() {
-    setSubmitting(true);
-    setError(null);
-
     const { data, error } = await supabase.functions.invoke("create-checkout", {
       body: {
         items: cartItems.map((item) => ({
@@ -25,11 +31,11 @@ function Cart() {
           price: item.price,
           quantity: item.quantity,
         })),
+        shippingAddress: address,
       },
     });
 
     if (error) {
-      setSubmitting(false);
       // supabase-js doesn't auto-parse a non-2xx response body into `data` - read it off error.context instead.
       let message = error.message;
       try {
@@ -39,12 +45,13 @@ function Cart() {
         // no JSON body available - stick with the generic message
       }
       setError(message);
+      setSubmitting(false);
       return;
     }
 
     if (!data?.checkoutUrl) {
-      setSubmitting(false);
       setError("Something went wrong starting checkout.");
+      setSubmitting(false);
       return;
     }
 
@@ -53,42 +60,36 @@ function Cart() {
 
   // Default for everyone else - place_order checks + decrements stock atomically, no real payment.
   async function HandleFakeCheckout() {
-    setSubmitting(true);
-    setError(null);
-
-    const { error } = await supabase.rpc("place_order", {
+    const { data: orderId, error } = await supabase.rpc("place_order", {
       p_items: cartItems.map((item) => ({
         id: item.id,
         name: item.name,
         price: item.price,
         quantity: item.quantity,
       })),
-      p_total: GetCartTotal(),
+      p_shipping_address: address,
     });
-
-    setSubmitting(false);
 
     if (error) {
       setError(error.message);
-    } else {
-      ClearCart();
-      setOrderComplete(true);
+      setSubmitting(false);
+      return;
     }
+
+    ClearCart();
+    navigate(`/marsh-makes-glass/order/${orderId}`);
   }
 
-  const HandleCheckout = realCheckoutEnabled ? HandleRealCheckout : HandleFakeCheckout;
+  async function HandleCheckoutClick() {
+    setError(null);
 
-  if (orderComplete) {
-    return (
-      <>
-        <Title text="Your Cart" />
-        <div className="page-body">
-          <p className="no-results">
-            Test order placed! This didn't charge anything real - it just recorded the order and updated stock, so we can check the flow works.
-          </p>
-        </div>
-      </>
-    )
+    if (!IsShippingAddressComplete(address)) {
+      setError("Please fill in your shipping address before checking out.");
+      return;
+    }
+
+    setSubmitting(true);
+    await (realCheckoutEnabled ? HandleRealCheckout() : HandleFakeCheckout());
   }
 
   if (cartItems.length === 0) {
@@ -128,14 +129,18 @@ function Cart() {
           </div>
         ))}
 
+        <ShippingAddressForm address={address} onChange={setAddress} />
+
         <div className="cart-summary">
-          <p className="cart-total">Total: £{GetCartTotal().toFixed(2)}</p>
+          <div className="cart-summary-line"><span>Subtotal</span><span>£{subtotal.toFixed(2)}</span></div>
+          <div className="cart-summary-line"><span>P&amp;P</span><span>£{postage.toFixed(2)}</span></div>
+          <p className="cart-total">Total: £{total.toFixed(2)}</p>
 
           {error && <p className="cart-error">{error}</p>}
 
           {realCheckoutEnabled && <p className="real-checkout-notice">Real Square Sandbox checkout enabled</p>}
 
-          <button className="checkout-button" onClick={HandleCheckout} disabled={submitting}>
+          <button className="checkout-button" onClick={HandleCheckoutClick} disabled={submitting}>
             {submitting
               ? (realCheckoutEnabled ? "Redirecting to checkout..." : "Placing order...")
               : (realCheckoutEnabled ? "Checkout" : "Complete Order (test)")}

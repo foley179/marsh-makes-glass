@@ -85,6 +85,14 @@
 	border-top: 2px solid var(--border);
 }
 
+.cart-summary-line {
+	display: flex;
+	justify-content: space-between;
+	color: var(--muted);
+	font-size: 0.9rem;
+	margin-bottom: 0.25rem;
+}
+
 .cart-total {
 	font-size: 1.3rem;
 	font-weight: bold;

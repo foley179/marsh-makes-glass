@@ -1,0 +1,41 @@
+.shipping-address-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1rem;
+	background: var(--bg-card);
+	border: 2px solid var(--border);
+	border-radius: 14px;
+}
+
+.shipping-address-form h3 {
+	color: var(--primary);
+	font-size: 1rem;
+	margin-bottom: 0.25rem;
+}
+
+.shipping-address-form label {
+	color: var(--text);
+	font-size: 0.85rem;
+}
+
+.shipping-address-form input {
+	padding: 0.5rem 0.6rem;
+	font-family: inherit;
+	font-size: 0.9rem;
+	color: var(--text);
+	background: var(--bg-dark);
+	border: 2px solid var(--border);
+	border-radius: 8px;
+}
+
+.shipping-address-form input:focus {
+	outline: none;
+	border-color: var(--primary);
+}
+
+.shipping-country-locked {
+	opacity: 0.55;
+	border-style: dashed;
+	cursor: not-allowed;
+}

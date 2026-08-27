@@ -8,6 +8,7 @@ import Navbar from './Components/Navbar'
 import Contact from './Pages/Contact'
 import ProductDetails from './Pages/ProductDetails'
 import Cart from './Pages/Cart'
+import OrderConfirmation from './Pages/OrderConfirmation'
 import './App.css'
 
 SyncRealCheckoutFlag(); // picks up ?realCheckout=1/0 from the URL, if present
@@ -25,6 +26,7 @@ function App() {
 					<Route path="/marsh-makes-glass/contact" element={<Contact />} />
 					<Route path="/marsh-makes-glass/product/:id" element={<ProductDetails />} />
 					<Route path="/marsh-makes-glass/cart" element={<Cart />} />
+					<Route path="/marsh-makes-glass/order/:orderId" element={<OrderConfirmation />} />
 				</Routes>
 			</main>
 		</CartProvider>

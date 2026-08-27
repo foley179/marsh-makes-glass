@@ -1,0 +1,75 @@
+.invoice {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.invoice-pending-notice {
+	padding: 0.75rem 1rem;
+	color: var(--warning);
+	background: var(--bg-card);
+	border: 2px solid var(--warning);
+	border-radius: 10px;
+	font-size: 0.9rem;
+}
+
+.invoice-items {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1rem;
+	background: var(--bg-card);
+	border: 2px solid var(--border);
+	border-radius: 14px;
+}
+
+.invoice-item {
+	display: flex;
+	justify-content: space-between;
+	color: var(--text);
+}
+
+.invoice-totals {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	padding: 1rem;
+	border-top: 2px solid var(--border);
+}
+
+.invoice-line {
+	display: flex;
+	justify-content: space-between;
+	color: var(--muted);
+}
+
+.invoice-total {
+	color: #9fffd7;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.invoice-address {
+	padding: 1rem;
+	background: var(--bg-card);
+	border: 2px solid var(--border);
+	border-radius: 14px;
+}
+
+.invoice-address h3 {
+	color: var(--primary);
+	font-size: 1rem;
+	margin-bottom: 0.5rem;
+}
+
+.invoice-address p {
+	color: var(--text);
+	font-size: 0.9rem;
+}
+
+.invoice-status {
+	color: var(--muted);
+	font-size: 0.85rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
