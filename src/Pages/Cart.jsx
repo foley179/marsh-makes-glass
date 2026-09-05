@@ -7,6 +7,36 @@ import ShippingAddressForm, { EmptyShippingAddress, IsShippingAddressComplete } 
 import Title from "../Components/Title"
 import "./Cart.css"
 
+// Reads a create-checkout-style Edge Function response, redirecting on success or surfacing
+// its actual error message (supabase-js doesn't auto-parse a non-2xx body into `data`).
+async function RedirectToCheckout(functionName, body, setError) {
+  const { data, error } = await supabase.functions.invoke(functionName, { body });
+
+  if (error) {
+    let message = error.message;
+
+    try {
+      const responseBody = await error.context.json();
+
+      if (responseBody?.error)
+        message = responseBody.error;
+    } catch {
+      // no JSON body available - stick with the generic message
+    }
+
+    setError(message);
+
+    return;
+  }
+
+  if (!data?.checkoutUrl) {
+    setError("Something went wrong starting checkout.");
+    return;
+  }
+
+  window.location.href = data.checkoutUrl;
+}
+
 function Cart() {
   const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal, ClearCart } = useCart();
   const navigate = useNavigate();
@@ -21,52 +51,36 @@ function Cart() {
   const postage = Math.max(0, ...cartItems.map((item) => item.postage ?? 0));
   const total = subtotal + postage;
 
-  // Real Square Sandbox checkout - only reachable via ?realCheckout=1 (see realCheckoutFlag.js).
-  async function HandleRealCheckout() {
-    const { data, error } = await supabase.functions.invoke("create-checkout", {
-      body: {
-        items: cartItems.map((item) => ({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-        shippingAddress: address,
-      },
-    });
+  function CartItemsForCheckout() {
+    return cartItems.map((item) => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+  }
 
-    if (error) {
-      // supabase-js doesn't auto-parse a non-2xx response body into `data` - read it off error.context instead.
-      let message = error.message;
-      try {
-        const body = await error.context.json();
-        if (body?.error) message = body.error;
-      } catch {
-        // no JSON body available - stick with the generic message
-      }
-      setError(message);
-      setSubmitting(false);
-      return;
+  // Returns false (and sets an error) if checkout shouldn't proceed yet.
+  function ValidateBeforeCheckout() {
+    setError(null);
+
+    if (!IsShippingAddressComplete(address)) {
+      setError("Please fill in your shipping address before checking out.");
+      return false;
     }
 
-    if (!data?.checkoutUrl) {
-      setError("Something went wrong starting checkout.");
-      setSubmitting(false);
-      return;
-    }
-
-    window.location.href = data.checkoutUrl;
+    return true;
   }
 
   // Default for everyone else - place_order checks + decrements stock atomically, no real payment.
   async function HandleFakeCheckout() {
+    if (!ValidateBeforeCheckout())
+      return;
+    
+    setSubmitting(true);
+
     const { data: orderId, error } = await supabase.rpc("place_order", {
-      p_items: cartItems.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-      })),
+      p_items: CartItemsForCheckout(),
       p_shipping_address: address,
     });
 
@@ -80,16 +94,27 @@ function Cart() {
     navigate(`/marsh-makes-glass/order/${orderId}`);
   }
 
-  async function HandleCheckoutClick() {
-    setError(null);
-
-    if (!IsShippingAddressComplete(address)) {
-      setError("Please fill in your shipping address before checking out.");
+  // Card payments (powered by Square, but customers never need to know that - it's just "Card").
+  async function HandleCardCheckout() {
+    if (!ValidateBeforeCheckout())
       return;
-    }
+    
+    setSubmitting(true);
+    
+    await RedirectToCheckout("create-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError);
+    
+    setSubmitting(false);
+  }
+
+  async function HandlePayPalCheckout() {
+    if (!ValidateBeforeCheckout())
+      return;
 
     setSubmitting(true);
-    await (realCheckoutEnabled ? HandleRealCheckout() : HandleFakeCheckout());
+    
+    await RedirectToCheckout("create-paypal-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError);
+    
+    setSubmitting(false);
   }
 
   if (cartItems.length === 0) {
@@ -138,13 +163,22 @@ function Cart() {
 
           {error && <p className="cart-error">{error}</p>}
 
-          {realCheckoutEnabled && <p className="real-checkout-notice">Real Square Sandbox checkout enabled</p>}
+          {realCheckoutEnabled && <p className="real-checkout-notice">Real Sandbox checkout enabled</p>}
 
-          <button className="checkout-button" onClick={HandleCheckoutClick} disabled={submitting}>
-            {submitting
-              ? (realCheckoutEnabled ? "Redirecting to checkout..." : "Placing order...")
-              : (realCheckoutEnabled ? "Checkout" : "Complete Order (test)")}
-          </button>
+          {realCheckoutEnabled ? (
+            <div className="checkout-options">
+              <button className="checkout-button" onClick={HandleCardCheckout} disabled={submitting}>
+                {submitting ? "Redirecting..." : "Pay by Card"}
+              </button>
+              <button className="paypal-button" onClick={HandlePayPalCheckout} disabled={submitting}>
+                {submitting ? "Redirecting..." : "Pay with PayPal"}
+              </button>
+            </div>
+          ) : (
+            <button className="checkout-button" onClick={HandleFakeCheckout} disabled={submitting}>
+              {submitting ? "Placing order..." : "Complete Order (test)"}
+            </button>
+          )}
         </div>
       </div>
     </>

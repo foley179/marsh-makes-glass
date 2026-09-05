@@ -136,3 +136,36 @@
 	opacity: 0.6;
 	cursor: not-allowed;
 }
+
+.checkout-options {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+	margin-top: 1rem;
+}
+
+.checkout-options .checkout-button {
+	margin-top: 0;
+}
+
+.paypal-button {
+	padding: 0.7rem 1.5rem;
+	font-size: 0.9rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #fff;
+	background: #0070ba; /* PayPal blue, so it reads as the recognisable brand, not a generic button */
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.paypal-button:hover {
+	background: #003087; /* PayPal's darker navy */
+}
+
+.paypal-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

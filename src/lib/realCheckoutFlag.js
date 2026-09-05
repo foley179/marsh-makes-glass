@@ -1,11 +1,12 @@
 // Dev-only real-checkout toggle (no auth system to gate it behind).
-// ?realCheckout=1 flips it on (persisted in localStorage), =0 flips it off.
+// ?realCheckout=1 shows both real payment buttons (persisted in localStorage),
+// ?realCheckout=0 clears it back to the fake flow everyone else always sees.
 
 const STORAGE_KEY = "mmg-real-checkout";
 
 export function SyncRealCheckoutFlag() {
   const params = new URLSearchParams(window.location.search);
-
+  
   if (!params.has("realCheckout"))
     return;
 

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { supabase } from "../lib/supabaseClient"
 import { useCart } from "../Contexts/CartContext"
@@ -6,10 +6,12 @@ import Title from "../Components/Title"
 import "./OrderConfirmation.css"
 
 const POLL_INTERVAL_MS = 2000;
-const MAX_POLLS = 5; // covers the webhook-confirmation gap after a real Square payment
+const MAX_POLLS = 5; // covers the webhook-confirmation gap after a real Square/PayPal payment
 
 function OrderConfirmation() {
   const { orderId } = useParams();
+  const [searchParams] = useSearchParams();
+  const paypalToken = searchParams.get("token"); // present when returning from PayPal approval
   const { ClearCart } = useCart();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ function OrderConfirmation() {
       setOrder(data);
       setLoading(false);
 
-      // Fake flow clears the cart itself before navigating here - this covers real Square payments.
+      // Fake flow clears the cart itself before navigating here - this covers real payments.
       if (data.status === "confirmed") {
         ClearCart();
       }
@@ -45,7 +47,21 @@ function OrderConfirmation() {
       }
     }
 
-    FetchOrder();
+    async function CaptureThenFetch() {
+      // paypal-webhook is the backup if this fails/is skipped (e.g. tab closed mid-approval).
+      if (paypalToken) {
+        try {
+          await supabase.functions.invoke("capture-paypal-order", { body: { paypalOrderId: paypalToken } });
+        } catch {
+          // ignored - FetchOrder's poll will still catch up once the webhook confirms it
+        }
+      }
+
+      if (!cancelled) 
+        FetchOrder();
+    }
+
+    CaptureThenFetch();
 
     return () => { cancelled = true; };
     // ClearCart isn't memoized - omitted deliberately, would re-run this effect on every cart change.
