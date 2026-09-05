@@ -140,11 +140,14 @@
 .checkout-options {
 	display: flex;
 	flex-direction: column;
+	align-items: end; /* stops flex's default stretch - buttons size to content, not full width */
 	gap: 0.6rem;
 	margin-top: 1rem;
 }
 
-.checkout-options .checkout-button {
+.checkout-options .checkout-button,
+.checkout-options .paypal-button {
+	width: 14rem;
 	margin-top: 0;
 }
 
