@@ -11,7 +11,7 @@ function AddToCartButton({ product }) {
   // If already exists in the cart, redirect to the cart, else add the item
   function HandleClick() {
     if (isInCart) {
-      navigate("/marsh-makes-glass/cart");
+      navigate("/cart");
       return;
     }
 

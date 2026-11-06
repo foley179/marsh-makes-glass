@@ -91,7 +91,7 @@ function Cart() {
     }
 
     ClearCart();
-    navigate(`/marsh-makes-glass/order/${orderId}`);
+    navigate(`/order/${orderId}`);
   }
 
   // Card payments (powered by Square, but customers never need to know that - it's just "Card").

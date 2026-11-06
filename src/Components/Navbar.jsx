@@ -19,7 +19,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <NavLink to="/marsh-makes-glass/" className="navbar-home" aria-label="Home" onClick={CloseMenu}>
+      <NavLink to="/" className="navbar-home" aria-label="Home" onClick={CloseMenu}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M3 11.5 12 4l9 7.5" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" strokeLinecap="round" strokeLinejoin="round" />
@@ -27,7 +27,7 @@ function Navbar() {
       </NavLink>
 
       <div className="navbar-right">
-        <NavLink to="/marsh-makes-glass/cart" className="cart-link nav-link" aria-label="Cart" onClick={CloseMenu}>
+        <NavLink to="/cart" className="cart-link nav-link" aria-label="Cart" onClick={CloseMenu}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="9" cy="21" r="1" />
             <circle cx="19" cy="21" r="1" />
@@ -44,10 +44,10 @@ function Navbar() {
         </button>
 
         <div className={`navbar-links ${menuOpen ? "open" : ""}`}>
-          <NavLink to="/marsh-makes-glass/" className="nav-link" onClick={CloseMenu} end>Home</NavLink>
-          <NavLink to="/marsh-makes-glass/products" className="nav-link" onClick={CloseMenu}>Products</NavLink>
-          <NavLink to="/marsh-makes-glass/about" className="nav-link" onClick={CloseMenu}>About</NavLink>
-          <NavLink to="/marsh-makes-glass/contact" className="nav-link" onClick={CloseMenu}>Contact</NavLink>
+          <NavLink to="/" className="nav-link" onClick={CloseMenu} end>Home</NavLink>
+          <NavLink to="/products" className="nav-link" onClick={CloseMenu}>Products</NavLink>
+          <NavLink to="/about" className="nav-link" onClick={CloseMenu}>About</NavLink>
+          <NavLink to="/contact" className="nav-link" onClick={CloseMenu}>Contact</NavLink>
         </div>
       </div>
     </nav>

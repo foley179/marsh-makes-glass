@@ -3,7 +3,7 @@ import "./GlassCard.css"
 
 function GlassCard({ product }) {
   const { name, category, brief_description, price, thumbnail_url, id, stock_quantity } = product;
-  const navUrl = `/marsh-makes-glass/product/${id}`;
+  const navUrl = `/product/${id}`;
   const outOfStock = stock_quantity === 0;
 
   return (

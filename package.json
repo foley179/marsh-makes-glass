@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://foley179.github.io/marsh-makes-glass/",
+  "homepage": "https://marsh-makes-glass.com/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

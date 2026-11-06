@@ -55,7 +55,7 @@ function ProductDetails() {
     if (window.history.state?.idx > 0)
       navigate(-1);
     else
-      navigate("/marsh-makes-glass/products");
+      navigate("/products");
   }
 
   // NOTE:: For now we only have arrows for now, we can add "swipe" functionality later. Would be a nice for mobile users, but not essential.
