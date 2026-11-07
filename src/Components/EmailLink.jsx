@@ -1,6 +1,6 @@
 import "./EmailLink.css"
 
-const CONTACT_EMAIL = "hello@marshmakesglass.com"
+const CONTACT_EMAIL = "marshmakesglass@outlook.com"
 
 function EmailLink({ subject, children }) {
   function BuildMailtoHref() {
