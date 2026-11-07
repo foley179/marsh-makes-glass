@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useCart } from "../Contexts/CartContext"
 import { supabase } from "../lib/supabaseClient"
@@ -9,6 +9,7 @@ import "./Cart.css"
 
 // Reads a create-checkout-style Edge Function response, redirecting on success or surfacing
 // its actual error message (supabase-js doesn't auto-parse a non-2xx body into `data`).
+// Returns true once a redirect has started, false if it failed.
 async function RedirectToCheckout(functionName, body, setError) {
   const { data, error } = await supabase.functions.invoke(functionName, { body });
 
@@ -26,15 +27,16 @@ async function RedirectToCheckout(functionName, body, setError) {
 
     setError(message);
 
-    return;
+    return false;
   }
 
   if (!data?.checkoutUrl) {
     setError("Something went wrong starting checkout.");
-    return;
+    return false;
   }
 
   window.location.href = data.checkoutUrl;
+  return true;
 }
 
 function Cart() {
@@ -44,6 +46,17 @@ function Cart() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const realCheckoutEnabled = IsRealCheckoutEnabled();
+
+  // Back from the payment page can restore this page frozen mid-"Redirecting..." - un-stick it.
+  useEffect(() => {
+    function HandlePageShow(e) {
+      if (e.persisted)
+        setSubmitting(false);
+    }
+
+    window.addEventListener("pageshow", HandlePageShow);
+    return () => window.removeEventListener("pageshow", HandlePageShow);
+  }, []);
 
   const subtotal = GetCartTotal();
   // Preview only - highest single item's postage, matching the server-side calculation. The
@@ -100,10 +113,10 @@ function Cart() {
       return;
     
     setSubmitting(true);
-    
-    await RedirectToCheckout("create-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError);
-    
-    setSubmitting(false);
+
+    // On success the buttons stay disabled until the browser actually leaves the page.
+    if (!(await RedirectToCheckout("create-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError)))
+      setSubmitting(false);
   }
 
   async function HandlePayPalCheckout() {
@@ -111,10 +124,9 @@ function Cart() {
       return;
 
     setSubmitting(true);
-    
-    await RedirectToCheckout("create-paypal-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError);
-    
-    setSubmitting(false);
+
+    if (!(await RedirectToCheckout("create-paypal-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError)))
+      setSubmitting(false);
   }
 
   if (cartItems.length === 0) {
