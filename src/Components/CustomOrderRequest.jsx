@@ -15,18 +15,17 @@ function CustomOrderRequest({ product }) {
     setSubmitting(true);
     setError(null);
 
-    const { error } = await supabase.from("orders").insert({
-      type: "custom_request",
-      status: "pending",
-      items: [{ id: product.id, name: product.name, price: product.price, quantity: 1 }],
-      customer_email: email,
-      customer_note: note,
+    const { error } = await supabase.rpc("submit_custom_request", {
+      p_product_id: product.id,
+      p_email: email,
+      p_note: note,
     });
 
     setSubmitting(false);
 
     if (error) {
-      setError("Sorry, something went wrong sending your request. Please try again.");
+      // P0001 = a message we raised on purpose (bad email, throttle...) - safe to show as-is.
+      setError(error.code === "P0001" ? error.message : "Sorry, something went wrong sending your request. Please try again.");
     } else {
       setSubmitted(true);
     }
@@ -53,6 +52,7 @@ function CustomOrderRequest({ product }) {
         id="custom-request-email"
         type="email"
         required
+        maxLength={254}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -61,6 +61,7 @@ function CustomOrderRequest({ product }) {
       <textarea
         id="custom-request-note"
         rows={3}
+        maxLength={1000}
         value={note}
         onChange={(e) => setNote(e.target.value)}
       />
