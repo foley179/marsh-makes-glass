@@ -43,6 +43,7 @@ function Cart() {
   const { cartItems, RemoveFromCart, UpdateQuantity, GetCartTotal, ClearCart } = useCart();
   const navigate = useNavigate();
   const [address, setAddress] = useState(EmptyShippingAddress);
+  const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const realCheckoutEnabled = IsRealCheckoutEnabled();
@@ -76,6 +77,11 @@ function Cart() {
   // Returns false (and sets an error) if checkout shouldn't proceed yet.
   function ValidateBeforeCheckout() {
     setError(null);
+
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
+      setError("Please enter a valid email address so we can send your order confirmation.");
+      return false;
+    }
 
     if (!IsShippingAddressComplete(address)) {
       setError("Please fill in your shipping address before checking out.");
@@ -115,7 +121,7 @@ function Cart() {
     setSubmitting(true);
 
     // On success the buttons stay disabled until the browser actually leaves the page.
-    if (!(await RedirectToCheckout("create-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError)))
+    if (!(await RedirectToCheckout("create-checkout", { items: CartItemsForCheckout(), shippingAddress: address, customerEmail: email }, setError)))
       setSubmitting(false);
   }
 
@@ -125,7 +131,7 @@ function Cart() {
 
     setSubmitting(true);
 
-    if (!(await RedirectToCheckout("create-paypal-checkout", { items: CartItemsForCheckout(), shippingAddress: address }, setError)))
+    if (!(await RedirectToCheckout("create-paypal-checkout", { items: CartItemsForCheckout(), shippingAddress: address, customerEmail: email }, setError)))
       setSubmitting(false);
   }
 
@@ -166,7 +172,7 @@ function Cart() {
           </div>
         ))}
 
-        <ShippingAddressForm address={address} onChange={setAddress} />
+        <ShippingAddressForm address={address} onChange={setAddress} email={email} onEmailChange={setEmail} />
 
         <div className="cart-summary">
           <div className="cart-summary-line"><span>Subtotal</span><span>£{subtotal.toFixed(2)}</span></div>

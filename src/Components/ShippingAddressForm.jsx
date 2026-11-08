@@ -1,14 +1,17 @@
 import "./ShippingAddressForm.css"
 
 // Controlled form - Cart.jsx owns the state. Used by both checkout flows.
-function ShippingAddressForm({ address, onChange }) {
+function ShippingAddressForm({ address, onChange, email, onEmailChange }) {
   function HandleFieldChange(field) {
     return (e) => onChange({ ...address, [field]: e.target.value });
   }
 
   return (
     <div className="shipping-address-form">
-      <h3>Shipping address</h3>
+      <h3>Delivery details</h3>
+
+      <label htmlFor="shipping-email">Email (for your order confirmation)</label>
+      <input id="shipping-email" type="email" required maxLength={254} autoComplete="email" value={email} onChange={(e) => onEmailChange(e.target.value)} />
 
       <label htmlFor="shipping-name">Full name</label>
       <input id="shipping-name" type="text" required value={address.name} onChange={HandleFieldChange("name")} />
