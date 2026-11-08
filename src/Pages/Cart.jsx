@@ -184,7 +184,7 @@ function Cart() {
           {realCheckoutEnabled && <p className="real-checkout-notice">Real Sandbox checkout enabled</p>}
 
           <p className="cart-terms">
-            By placing your order you agree to my <Link to="/returns">delivery &amp; returns terms</Link> and{" "}
+            By placing your order you agree to the <Link to="/returns">delivery &amp; returns terms</Link> and{" "}
             <Link to="/privacy">privacy notice</Link>.
           </p>
 
