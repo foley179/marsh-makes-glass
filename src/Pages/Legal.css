@@ -1,0 +1,43 @@
+/* Shared by the Delivery & Returns and Privacy pages */
+.legal h2 {
+	margin: 2rem 0 0.75rem;
+	font-size: 1.3rem;
+	color: var(--primary);
+}
+
+.legal h3 {
+	margin: 1.25rem 0 0.5rem;
+	font-size: 1.05rem;
+	color: var(--text);
+}
+
+.legal p,
+.legal li {
+	color: var(--text);
+	line-height: 1.7;
+}
+
+.legal p {
+	margin-bottom: 1rem;
+}
+
+.legal ul,
+.legal ol {
+	margin-bottom: 1rem;
+	padding-left: 1.5rem; /* the global reset strips list indents */
+}
+
+.legal li {
+	margin-bottom: 0.5rem;
+}
+
+.legal a {
+	color: var(--primary);
+	text-decoration: underline;
+}
+
+.legal-updated {
+	margin-top: 2rem;
+	font-size: 0.85rem;
+	color: var(--muted);
+}

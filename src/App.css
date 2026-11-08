@@ -3,3 +3,13 @@
 	margin: 0 auto;
 	padding: 1rem 1.5rem;
 }
+
+/* Keeps the footer at the bottom of the screen on short pages. */
+#root {
+	display: flex;
+	flex-direction: column;
+}
+
+.main-content {
+	flex: 1;
+}

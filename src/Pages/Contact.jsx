@@ -5,7 +5,6 @@ import "./Contact.css"
 const SOCIAL_LINKS = [
   { name: "Instagram", url: "https://instagram.com/marshmakesglass" },
   { name: "Facebook", url: "https://facebook.com/marshmakesglass" },
-  { name: "Etsy", url: "https://etsy.com/shop/marshmakesglass" },
 ]
 
 function Contact() {

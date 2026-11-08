@@ -6,7 +6,11 @@ import About from './Pages/About'
 import Products from './Pages/Products'
 import Navbar from './Components/Navbar'
 import SiteBanner from './Components/SiteBanner'
+import Footer from './Components/Footer'
+import ScrollToTop from './Components/ScrollToTop'
 import Contact from './Pages/Contact'
+import Returns from './Pages/Returns'
+import Privacy from './Pages/Privacy'
 import ProductDetails from './Pages/ProductDetails'
 import Cart from './Pages/Cart'
 import OrderConfirmation from './Pages/OrderConfirmation'
@@ -17,7 +21,8 @@ SyncRealCheckoutFlag(); // picks up ?realCheckout=1/0 from the URL, if present
 function App() {
 	return (
 		<CartProvider>
-			<Navbar />
+			<ScrollToTop />
+				<Navbar />
 				<SiteBanner />
 
 			<main className="main-content">
@@ -29,8 +34,12 @@ function App() {
 					<Route path="/product/:id" element={<ProductDetails />} />
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/order/:orderId" element={<OrderConfirmation />} />
+					<Route path="/returns" element={<Returns />} />
+					<Route path="/privacy" element={<Privacy />} />
 				</Routes>
 			</main>
+
+			<Footer />
 		</CartProvider>
 	)
 }

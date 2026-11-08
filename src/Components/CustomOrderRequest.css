@@ -20,6 +20,11 @@
 	max-width: none;
 }
 
+.custom-request-intro a {
+	color: var(--primary);
+	text-decoration: underline;
+}
+
 .custom-request-form label {
 	color: var(--text);
 	font-size: 0.85rem;

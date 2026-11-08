@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useCart } from "../Contexts/CartContext"
 import { supabase } from "../lib/supabaseClient"
 import { IsRealCheckoutEnabled } from "../lib/realCheckoutFlag"
@@ -79,7 +79,7 @@ function Cart() {
     setError(null);
 
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
-      setError("Please enter a valid email address so we can send your order confirmation.");
+      setError("Please enter a valid email address so I can send your order confirmation.");
       return false;
     }
 
@@ -183,10 +183,15 @@ function Cart() {
 
           {realCheckoutEnabled && <p className="real-checkout-notice">Real Sandbox checkout enabled</p>}
 
+          <p className="cart-terms">
+            By placing your order you agree to my <Link to="/returns">delivery &amp; returns terms</Link> and{" "}
+            <Link to="/privacy">privacy notice</Link>.
+          </p>
+
           {realCheckoutEnabled ? (
             <div className="checkout-options">
               <button className="checkout-button" onClick={HandleCardCheckout} disabled={submitting}>
-                {submitting ? "Redirecting..." : "Pay by Card"}
+                {submitting ? "Redirecting..." : "Pay with Card"}
               </button>
               <button className="paypal-button" onClick={HandlePayPalCheckout} disabled={submitting}>
                 {submitting ? "Redirecting..." : "Pay with PayPal"}

@@ -105,6 +105,18 @@
 	font-size: 0.9rem;
 }
 
+.cart-terms {
+	margin-top: 0.75rem;
+	color: var(--muted);
+	font-size: 0.8rem;
+	line-height: 1.5;
+}
+
+.cart-terms a {
+	color: var(--primary);
+	text-decoration: underline;
+}
+
 .real-checkout-notice {
 	margin-top: 0.5rem;
 	color: var(--warning);

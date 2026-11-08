@@ -1,5 +1,7 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { supabase } from "../lib/supabaseClient"
+import { DEPOSIT_PERCENT } from "../lib/commissionTerms"
 import "./CustomOrderRequest.css"
 
 // Shown instead of Add to Cart when out of stock. Just records a request for manual follow-up - nothing committed.
@@ -34,7 +36,7 @@ function CustomOrderRequest({ product }) {
   if (submitted) {
     return (
       <p className="custom-request-success">
-        Thanks! Your request has been sent — we'll be in touch by email to confirm details.
+        Thanks! Your request has been sent — I'll be in touch by email to confirm details.
       </p>
     )
   }
@@ -42,9 +44,15 @@ function CustomOrderRequest({ product }) {
   return (
     <form className="custom-request-form" onSubmit={HandleSubmit}>
       <p className="custom-request-intro">
-        This piece is out of stock, but we may be able to make one to order.
-        Let us know your details (and any colour/customisation preferences)
-        and we'll get back to you to confirm before anything is agreed.
+        This piece is out of stock, but I may be able to make one to order.
+        Let me know your details (and any colour/customisation preferences)
+        and I'll get back to you to confirm before anything is agreed.
+      </p>
+
+      <p className="custom-request-intro">
+        Commissions are made to order. A {DEPOSIT_PERCENT}% deposit is due once you've approved the design, and
+        you can cancel for a refund before I start work. Full details in my{" "}
+        <Link to="/returns">delivery &amp; returns terms</Link>.
       </p>
 
       <label htmlFor="custom-request-email">Your email</label>
